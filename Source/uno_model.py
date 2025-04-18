@@ -70,12 +70,18 @@ class UNOGAMEMODEL:
 
     def shuffle_and_distribute(self):
         """
-        _summary_
+        Shuffles the main deck of cards randomly, distributes the 7 cards to each player,
+        and picks a number based card from the top of the deck to act as the starting
+        card for the game
+
         """
         shuffle(self.deck)
 
         self.player_hand.append(self.deck[0:6])
+        del self.deck[0:6]
+
         self.computer_hand.append(self.deck[0:6])
+        del self.deck[0:6]
 
         position = 0
         start_card = self.deck[position]
@@ -85,13 +91,23 @@ class UNOGAMEMODEL:
             start_card = self.deck[position]
 
         self.played_cards.append(start_card)
+        del self.deck[position]
 
-    def is_card_valid_move(self, card, top_of_deck):
-        """_summary_
+    def is_card_valid_move(self, card):
+        """
+        Checks if a card played is valid based on if it matches either the color or
+        the number of the last played card, with the expection of wild cards.
 
         Args:
-            card (_type_): _description_
+            card: A tuple type representing the card picked to be played next
+            top_of_deck: A tuple type representing the last card played
+
+        Returns:
+            Returns true if the card picked to be played is wild, or matches the color
+            or number of the last card played. Return False otherwsie
         """
+        top_of_deck = self.played_cards[(len(self.played_cards) - 1)]
+
         if (
             (card[0] == top_of_deck[0])
             or (card[1] == top_of_deck[1])
@@ -101,27 +117,63 @@ class UNOGAMEMODEL:
 
         return False
 
-    def pick_a_card(self):
-        """_summary_"""
+    def pick_a_card(self, personal_hand):
+        """
+        Performs the game action of picking a card in the UNO game
 
-    def player_turn(self, personal_hand):
-        """_summary_
+        Args:
+            personal_hand: a list representing the player's hand who is currently picking a card
+        """
+
+        personal_hand.append(self.deck[0])
+        del self.deck[0]
+        print("Picked A Card")
+
+    def computer_choice(self):
+        """
+        Performs the artificial player's (computer's) turn by having them choose
+        what card they will play or if they will pick a card.
+
+        Returns:
+            The position number of the first eligiable card in the computer's
+            hand to be played or the picked a card statement.
+        """
+        for card_pos in enumerate(self.computer_hand):
+            if self.is_card_valid_move(self.computer_hand[card_pos]):
+                return card_pos
+
+        return self.pick_a_card(self.computer_hand)
+
+    def check_for_winner(self, player):
+        """
+        Checks if a player has won the game
+
+        Args:
+            player: A list type representing the hand of a player
+
+        Returns:
+            True if the specific player has won and False otherwise
+        """
+
+        if len(player) == 0:
+            return True
+
+        return False
+
+    def play_your_turn(self, pick_card):
+        """
+        _summary_
 
         Args:
             personal_hand (_type_): _description_
         """
 
-    def computer_turn(self, personal_hand):
-        """_summary_
-
-        Args:
-            personal_hand (_type_): _description_
+    def call_uno(self):
+        """
+        _summary_
         """
 
-    def win_condition(self, player_cards, computer_cards):
-        """_summary_
-
-        Args:
-            player_cards (_type_): _description_
-            computer_cards (_type_): _description_
+    def call_uno_out(self):
+        """
+        _summary_
         """
