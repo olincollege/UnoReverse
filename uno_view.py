@@ -59,4 +59,65 @@ class UnoView:
         """
         print(f"⏳ Time left: {time_left} seconds")
     
-    
+
+    def display_message(self, message):
+        """
+        Display a general-purpose system message to the player.
+
+        This method is used to show notifications, instructions, or feedback during the game.
+        It helps maintain a consistent format for all non-card-related messages.
+
+        Parameters:
+            message (str): The message text to display.
+        """
+        print(f"\n🔔 {message}")
+
+    def display_winner(self, winner_name):
+        """
+        Display the game over message and announce the winner.
+
+        This method is called at the end of the game to let the player(s) know who won.
+        It uses emoji and formatting to emphasize the final result.
+
+        Parameters:
+            winner_name (str): The name of the winning player.
+        """
+        print(f"\n Game Over! 🏆Winner: {winner_name}")
+
+    def prompt_for_move(self):
+        """
+        Prompt the player to make a move.
+
+        This method asks the player to either:
+        - enter the number corresponding to the card they want to play, or
+        - enter 'P' to draw a card from the deck.
+
+        Returns:
+            str: The player's input, either a number as a string or 'P'.
+        """
+        return input("\n Enter the number of the card to play, or 'P' to pick a new card: ").strip()
+
+    def prompt_uno(self):
+        """
+        Prompt the player to declare 'UNO' when they have one card left.
+
+        This method is called when the player is about to play their second-to-last card.
+        It asks them to type 'UNO' before continuing.
+
+        Returns:
+            str: The player's input, expected to be 'UNO' (case-insensitive).
+        """
+        return input("🚨 You have 1 card left! Type 'UNO' to continue: ").strip()
+
+if __name__ == "__main__":
+    view = UnoView()
+    test_hand = ["Red 5", "Blue Skip", "Wild", "Yellow 3", "Green Reverse"]
+    view.display_hand(test_hand)
+    view.display_top_card("Yellow 3")
+    view.display_message("You have drawn a card.")
+    view.display_timer(5)
+    view.display_winner(view.player_name)
+    move = view.prompt_for_move()
+    print(f"You selected: {move}")
+    uno_call = view.prompt_uno()
+    print(f"You said: {uno_call}")
