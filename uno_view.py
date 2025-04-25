@@ -1,123 +1,95 @@
-class UnoView:
-    def __init__(self):
-        self.player_name = input("🎮 Welcome to UNO! What's your name? ")
-        print(f"Hi, {self.player_name}! Let's get started!")
-    def display_hand(self, hand):
-        """
-        Display the player's current hand with numbered options and corresponding emojis.
+import pygame
+import sys
+from Source.uno_model import Card
+from random import choice
 
-        This method prints each card in the player's hand alongside a number (starting from 1)
-        to help the user easily select a card by its index. Each card is displayed with a color-based
-        emoji for better visual clarity.
+class UnoPygameView:
+    def __init__(self, width=900, height=600):
+        pygame.init()
+        self.screen = pygame.display.set_mode((width, height))
+        pygame.display.set_caption("✨ Fancy UNO Game ✨")
+        self.font = pygame.font.SysFont("Arial Rounded MT Bold", 28)
+        self.bg_color = (25, 25, 112)  # dark blue
+        self.card_rects = []
 
-        Parameters:
-            hand (list of str): The list of cards currently in the player's hand.
-        """
-        print(f"\n🃏 {self.player_name}'s hand:\n")
-        for idx, card in enumerate(hand, 1):
-            emoji_card = self.format_card(card)
-            print(f"{idx}: {emoji_card}")
+    def draw_background(self):
+        self.screen.fill(self.bg_color)
 
-    def format_card(self, card):
-        """add emoji to cards"""
-        if "Red" in card:
-            return f"🔴 {card}"
-        elif "Yellow" in card:
-            return f"🟡 {card}"
-        elif "Green" in card:
-            return f"🟢 {card}"
-        elif "Blue" in card:
-            return f"🔵 {card}"
-        elif "Wild" in card:
-            return f"🃏 {card}"
-        else:
-            return card
-        
-    def display_top_card(self, card):
-        """
-        Display the current top card on the played pile with emoji formatting.
+    def draw_card(self, card, x, y):
+        card_color = self.get_color_from_suit(card.suit)
+        rect = pygame.Rect(x, y, 90, 130)
+        pygame.draw.rect(self.screen, (255, 255, 255), rect.inflate(6, 6), border_radius=12)  # white border
+        pygame.draw.rect(self.screen, card_color, rect, border_radius=10)
 
-        This method shows the card that is currently on top of the discard pile.
-        The player should match this card by color or number during their turn.
+        # Draw value centered
+        text_value = self.font.render(str(card.value), True, (255, 255, 255))
+        text_rect = text_value.get_rect(center=(x + 45, y + 50))
+        self.screen.blit(text_value, text_rect)
 
-        Parameters:
-            card (str): The card currently on top of the played pile.
+        # Draw suit label
+        text_suit = self.font.render(card.suit.title(), True, (255, 255, 255))
+        text_suit_rect = text_suit.get_rect(center=(x + 45, y + 90))
+        self.screen.blit(text_suit, text_suit_rect)
 
-        """
-        emoji_card = self.format_card(card)
-        print(f"\n🔺 Top card on the pile: {emoji_card}")
+        return rect  # return position
 
-    def display_timer(self, time_left):
-        """
-        Display the remaining time for the player's turn.
+    def get_color_from_suit(self, suit):
+        color_map = {
+            "red": (220, 20, 60),
+            "yellow": (255, 215, 0),
+            "green": (50, 205, 50),
+            "blue": (65, 105, 225),
+            "wild": (100, 100, 100)
+        }
+        return color_map.get(suit, (200, 200, 200))
 
-        This method prints a countdown timer showing how many seconds the player
-        has left to make a move. Intended for use within a time-limited turn system.
+    def draw_hand(self, hand, y=440):
+        self.card_rects = []
+        for i, card in enumerate(hand):
+            x = 110 + i * 100
+            rect = self.draw_card(card, x, y)
+            self.card_rects.append((rect, card))
 
-        Parameters:
-            time_left (int): The number of seconds remaining in the turn.
-        """
-        print(f"⏳ Time left: {time_left} seconds")
-    
+    def draw_top_card(self, card):
+        pygame.draw.rect(self.screen, (255, 255, 255), (400-3, 200-3, 96, 136), border_radius=12)
+        self.draw_card(card, 400, 200)
 
-    def display_message(self, message):
-        """
-        Display a general-purpose system message to the player.
+    def update_display(self):
+        pygame.display.flip()
 
-        This method is used to show notifications, instructions, or feedback during the game.
-        It helps maintain a consistent format for all non-card-related messages.
+    def wait_for_quit(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
-        Parameters:
-            message (str): The message text to display.
-        """
-        print(f"\n🔔 {message}")
+    def get_clicked_card(self, pos):
+        for rect, card in self.card_rects:
+            if rect.collidepoint(pos):
+                return card
+        return None
 
-    def display_winner(self, winner_name):
-        """
-        Display the game over message and announce the winner.
-
-        This method is called at the end of the game to let the player(s) know who won.
-        It uses emoji and formatting to emphasize the final result.
-
-        Parameters:
-            winner_name (str): The name of the winning player.
-        """
-        print(f"\n Game Over! 🏆Winner: {winner_name}")
-
-    def prompt_for_move(self):
-        """
-        Prompt the player to make a move.
-
-        This method asks the player to either:
-        - enter the number corresponding to the card they want to play, or
-        - enter 'P' to draw a card from the deck.
-
-        Returns:
-            str: The player's input, either a number as a string or 'P'.
-        """
-        return input("\n Enter the number of the card to play, or 'P' to pick a new card: ").strip()
-
-    def prompt_uno(self):
-        """
-        Prompt the player to declare 'UNO' when they have one card left.
-
-        This method is called when the player is about to play their second-to-last card.
-        It asks them to type 'UNO' before continuing.
-
-        Returns:
-            str: The player's input, expected to be 'UNO' (case-insensitive).
-        """
-        return input("🚨 You have 1 card left! Type 'UNO' to continue: ").strip()
 
 if __name__ == "__main__":
-    view = UnoView()
-    test_hand = ["Red 5", "Blue Skip", "Wild", "Yellow 3", "Green Reverse"]
-    view.display_hand(test_hand)
-    view.display_top_card("Yellow 3")
-    view.display_message("You have drawn a card.")
-    view.display_timer(5)
-    view.display_winner(view.player_name)
-    move = view.prompt_for_move()
-    print(f"You selected: {move}")
-    uno_call = view.prompt_uno()
-    print(f"You said: {uno_call}")
+    view = UnoPygameView()
+    fake_hand = [Card(choice(["red", "green", "yellow", "blue"]), i) for i in range(1, 6)]
+    for c in fake_hand:
+        c.function = None
+
+    top_card = Card("blue", 5)
+
+    while True:
+        view.draw_background()
+        view.draw_hand(fake_hand)
+        view.draw_top_card(top_card)
+        view.update_display()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                clicked = view.get_clicked_card(pygame.mouse.get_pos())
+                if clicked:
+                    fake_hand.remove(clicked)
+                    top_card = clicked
