@@ -14,21 +14,12 @@ class UNOController(ABC):
     def __init__(self, model):
         self._model = model
 
-    
-    
     @property
     def deck(self):
         """
             Your docstring goes here. Fill in once more info written.
         """
         return self._model
-
-    @abstractmethod
-    def play(self):
-        """
-        This should do nothing. Will be implemented in TextController.
-        """
-        pass
 
 
 class TextController(UNOController):
@@ -37,15 +28,22 @@ class TextController(UNOController):
     Acts as an instance of UNOcontroller
     """
     #kinda of runs through all the tests we need for UNOController
-    def is_valid(self, user_input):
-        pass
+    def is_valid(self, card):
+        if card[0] == top_of_deck[0]:
+            return True
+        if card[1] == top_of_deck[1]:
+            return True
+        if card[0] == "wild":
+            return True
+        return False
+
 
     def Play(self):
         """
         Your docstring goes here. Fill in once more info written.
         """
         user_input = input(f"Type in the card you want to play or 'D' to Draw a card:")
-       
+
         #this will eventually raise error messages for wrong imputs.  
         while self.is_valid(user_input) == False:
             try:
