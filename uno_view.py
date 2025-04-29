@@ -16,21 +16,48 @@ class View:
         self.yellow=(240, 240, 50)
         self.gray=(100, 100, 100)
         self.text=(255, 255, 255)
+        self.font=pygame.font.Font(None, 36)
     def draw_background(self):
         """Fill the background with the determined color"""
         self.screen.fill(self.background_color)
     def draw_timer(self):
         """Draw the timer"""
-        timer= pygame.Rect(self.screen_width-150, 10, 130, 40)
+        timer=pygame.Rect(self.screen_width-150, 10, 130, 40)
         pygame.draw.rect(timer)
-        font = pygame.font.Font(None, 36)
-        timer_time=font.render("Time: 0", True, self.text)
-        time_position = timer_time.get_rect(center=timer.center)
+        timer_time=self.font.render("Time: 0", True, self.text)
+        time_position=timer_time.get_rect(center=timer.center)
         self.screen.blit(timer_time, time_position)
     def draw_buttons(self):
-        """Draw needed buttons--UNO, Draw, Pass at the right bottom of the screen"""
+        """Draw needed buttons--Draw, UNO, and Pass at the right bottom of the screen"""
         self.buttons={}
-        pass
+        button_width=100
+        button_height=40
+        position_y = self.screen_height-80
+        horizontal_center=self.screen_width//2
+        #Draw Card
+        draw_button_position_x=horizontal_center-170
+        draw_button=pygame.Rect(draw_button_position_x,position_y,button_width,button_height)
+        self.buttons["Draw"]=draw_button
+        pygame.draw.rect(self.screen,self.gray,draw_button)
+        text_draw=self.font.render("Draw", True, self.text)
+        text_draw_rectangle=text_draw.get_rect(center=draw_button.center)
+        self.screen.blit(text_draw,text_draw_rectangle)
+        #UNO
+        UNO_button_position_x=horizontal_center-50
+        UNO_button=pygame.Rect(UNO_button_position_x,position_y,button_width,button_height)
+        self.buttons["UNO"]=UNO_button
+        pygame.draw.rect(self.screen,self.gray,UNO_button)
+        text_UNO=self.font.render("UNO", True, self.text)
+        text_UNO_rectangle=text_draw.get_rect(center=UNO_button.center)
+        self.screen.blit(text_UNO,text_UNO_rectangle)
+        #Pass
+        Pass_button_position_x=horizontal_center+70
+        Pass_button=pygame.Rect(Pass_button_position_x,position_y,button_width,button_height)
+        self.buttons["Pass"]=Pass_button
+        pygame.draw.rect(self.screen,self.gray,Pass_button)
+        text_Pass=self.font.render("Pass", True, self.text)
+        text_Pass_rectangle=text_draw.get_rect(center=Pass_button.center)
+        self.screen.blit(text_Pass,text_Pass_rectangle)
     def draw_top_card(self, top_card):
         """Draw the top card"""
         pass
@@ -42,4 +69,5 @@ class View:
         pass
     def draw_computer_hand(self, computer_hand_count):
         """Display the number of cards that the computer left on hand"""
+        pass
 
