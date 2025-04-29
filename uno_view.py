@@ -1,4 +1,5 @@
 import pygame
+from Source.uno_model import PlayerDetails, ComputerDetails, Card, Deck, UNOGAMEMODEL
 
 class View:
     def __init__(self, model, controller):
@@ -17,16 +18,28 @@ class View:
         self.gray=(100, 100, 100)
         self.text=(255, 255, 255)
         self.font=pygame.font.Font(None, 36)
+    def get_top_card(self, top_card):
+        """Get the top card"""
+        top_card=Deck.played_cards[-1]
+        return top_card
+    def get_player_hand(self, player_hand):
+        """Get details of the player's cards on hand"""
+        player_hand=Deck.human_deck()
+        return player_hand
+    def get_computer_hand(self, computer_hand_count):
+        """Get the number of cards that the computer left on hand"""
+        computer_hand_count=len(Deck.computer_deck())
+        return computer_hand_count
     def draw_background(self):
         """Fill the background with the determined color"""
         self.screen.fill(self.background_color)
-    def draw_timer(self):
-        """Draw the timer"""
-        timer=pygame.Rect(self.screen_width-150, 10, 130, 40)
-        pygame.draw.rect(timer)
-        timer_time=self.font.render("Time: 0", True, self.text)
-        time_position=timer_time.get_rect(center=timer.center)
-        self.screen.blit(timer_time, time_position)
+    #def draw_timer(self):
+       # """Draw the timer"""
+        #timer=pygame.Rect(self.screen_width-150, 10, 130, 40)
+        #pygame.draw.rect(timer)
+        #timer_time=self.font.render("Time: 0", True, self.text)
+        #time_position=timer_time.get_rect(center=timer.center)
+        #self.screen.blit(timer_time, time_position)
     def draw_buttons(self):
         """Draw needed buttons--Draw, UNO, and Pass at the right bottom of the screen"""
         self.buttons={}
@@ -58,16 +71,3 @@ class View:
         text_Pass=self.font.render("Pass", True, self.text)
         text_Pass_rectangle=text_draw.get_rect(center=Pass_button.center)
         self.screen.blit(text_Pass,text_Pass_rectangle)
-    def draw_top_card(self, top_card):
-        """Draw the top card"""
-        pass
-    def draw_deck(self):
-        """Draw the deck with the recent played card in the center"""
-        pass
-    def draw_player_hand(self, player_hand):
-        """Display to details of the player's cards on hand"""
-        pass
-    def draw_computer_hand(self, computer_hand_count):
-        """Display the number of cards that the computer left on hand"""
-        pass
-
