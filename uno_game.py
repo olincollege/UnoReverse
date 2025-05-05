@@ -21,7 +21,12 @@ while RUNNING:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             RUNNING = False
-        controller.handle_mouse_event(event)
+        controller.mouse_controller_update(event)
+        
+        if controller.clicked:
+            controller.interact_with_card
+            controller.interact_with_uno
+            controller
 
     # runs frame by frame, so you don't see cards in the background
     screen.fill("blue")

@@ -214,7 +214,7 @@ class Deck:
                         colors[i],
                         num,
                         regular_card_sheet.get_image(
-                            (num + i * 10), Deck._NUM_CARD_WIDTH, Deck._CARD_HEIGHT, 1.5
+                            (num + i * 10), Deck._NUM_CARD_WIDTH, Deck._CARD_HEIGHT, 0.75
                         ),
                     )
                     for num in range(0, 11)
