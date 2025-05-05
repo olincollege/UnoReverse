@@ -14,17 +14,6 @@ class View:
     """
 
     pygame.init()
-    # setup for regular cards:
-    sprite_sheet_regular = pygame.image.load(
-        "Assets/Uno_Cards_numbers.png"
-    ).convert_alpha()
-    regular_card_sheet = sprite_sheet.SpriteSheet(sprite_sheet_regular)
-
-    # setup for special cards:
-    sprite_sheet_special = pygame.image.load(
-        "Assets/Uno_Cards_Special.png"
-    ).convert_alpha()
-    special_card_sheet = sprite_sheet.SpriteSheet(sprite_sheet_special)
 
     def __init__(self):
         self.screen_width = 1400
@@ -32,6 +21,16 @@ class View:
         self.background_color = (211, 153, 242)
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("UNO Game")
+           # setup for regular cards:
+        sprite_sheet_regular = pygame.image.load(
+            "Assets/Uno_Cards_numbers.png"
+        ).convert_alpha()
+        self.regular_card_sheet = sprite_sheet.SpriteSheet(sprite_sheet_regular)
+        # setup for special cards:
+        sprite_sheet_special = pygame.image.load(
+            "Assets/Uno_Cards_Special.png"
+        ).convert_alpha()
+        self.special_card_sheet = sprite_sheet.SpriteSheet(sprite_sheet_special)
         self.red = (200, 50, 50)
         self.green = (50, 200, 50)
         self.blue = (50, 50, 200)
@@ -72,33 +71,26 @@ class View:
         text_uno_rectangle = text_draw.get_rect(center=uno_button.center)
         self.screen.blit(text_uno, text_uno_rectangle)
         # uno_out
-        uno_out_button_position_x = horizontal_center
+        uno_out_button_position_x = horizontal_center + 70
         uno_out_button = pygame.Rect(
-            uno_out_button_position_x, position_y, button_width, button_height
+            uno_out_button_position_x, position_y, button_width+70, button_height
         )
         self.buttons["UNO OUT"] = uno_out_button
         pygame.draw.rect(self.screen, self.gray, uno_out_button)
         text_uno_out = self.font.render("UNO OUT", True, self.text)
         text_uno_out_rectangle = text_draw.get_rect(center=uno_out_button.center)
         self.screen.blit(text_uno_out, text_uno_out_rectangle)
-        # Pass
-        pass_button_position_x = horizontal_center + 70
-        pass_button = pygame.Rect(
-            pass_button_position_x, position_y, button_width, button_height
-        )
-        self.buttons["Pass"] = pass_button
-        pygame.draw.rect(self.screen, self.gray, pass_button)
-        text_pass = self.font.render("Pass", True, self.text)
-        text_pass_rectangle = text_draw.get_rect(center=pass_button.center)
-        self.screen.blit(text_pass, text_pass_rectangle)
 
     def draw_player_hand(self, player_hand):
         """Render the player's hand using images uploaded"""
-        pass
+        x_position=0
+        for card in player_hand:
+            self.screen.blit(card,(x_position,150))
+            x_position+=150
 
     def draw_top_card(self, top_of_deck):
         """show the image of the last card played on the deck"""
-        pass
+        self.screen.blit(top_of_deck,(self.screen_width // 2,self.screen_height//2))
 
     def display_win_message(self, winner):
         """
