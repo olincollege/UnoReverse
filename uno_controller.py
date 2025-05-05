@@ -2,7 +2,7 @@
 Controller for our Final Project's version of UNO
 """
 #import pygame
-import pygame, sys
+import pygame
 from pygame.locals import *
 
 #setup pygame
@@ -22,31 +22,24 @@ class MouseController:
         self._model = model
         self.clicked = False
         self.rect = rect
+        self.mouse_x, self.mouse_y = pygame.mouse.get_pos()
 
 
-    def handle_mouse_event(self, event):
+    def mouse_controller_update(self, event):
         """
             Use this to help implement the mouse in an event
         """
+            #track mouse position
+        mouse_x, mouse_y = pygame.mouse.get_pos()
 
-        while True:
+        if event.type == MOUSEBUTTONDOWN:
+            if event.button == 1:
+                clicking = True
+        elif event.type == MOUSEBUTTONUP:
+            if event. button == 1:
+                clicking = False
 
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
-                        pygame.quit()
-                        sys.exit()
-                if event.type == MOUSEBUTTONDOWN: #need to add when to play card?
-                    if event.button == 1:
-                        clicking = True
-                if event.type == MOUSEBUTTONUP:
-                    if event.button == 1:
-                        clicking = False
-
-            pygame.display.update()
-            mainClock.tick(60)
+    def interact_with_card(self, card):
+        #if self.mouse_x within card_box and self.mouse_y within card box
+            pygame.Rect.collidepoint
+            card.image.get_rect().collidepoint
