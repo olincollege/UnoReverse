@@ -27,8 +27,12 @@ while RUNNING:
     screen.fill("blue")
 
     # runs a single round of game, should be the layout of event
-    Model.countdown(30)
+    while Model.countdown(30) is not "Time's Up!":
+        if draw.button clicking is True
+            Model.pick_a_card(Model.player_hand)
+
     Model.human_players_turn()  # need to know what card is clicked as input
+    Model.check_player_uno
     Model.check_for_winner()
 
     if Model.deck.human_deck.is_winner is True:

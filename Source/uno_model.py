@@ -15,7 +15,7 @@ class Card(pygame.sprite.Sprite):
     sub function to cards that have special effects
     """
 
-    def __init__(self, suit, value, image, function = None):
+    def __init__(self, suit, value, image, function=None):
         self.suit = suit
         self.value = value
         self.image = image
@@ -86,7 +86,7 @@ class Card(pygame.sprite.Sprite):
             x: the x-cord of the top corner of where we want our sprite
             y: the x-cord of the top corner of where we want our sprite
         """
-        screen.blit(self.image,(x,y))
+        screen.blit(self.image, (x, y))
 
     def __repr__(self):
         return f"this card is a {self.suit} {self.value}"
@@ -122,7 +122,7 @@ class PlayerDetails:
             y: the x-cord of the top corner of where we want our sprite
         """
         for i in range(len(self.hand)):
-            self.hand[i].draw(screen, x+(i*self.hand[i].image.get_width()),y)
+            self.hand[i].draw(screen, x + (i * self.hand[i].image.get_width()), y)
 
     def declare_win(self):
         """
@@ -168,11 +168,13 @@ class ComputerDetails:
     def __repr__(self):
         pass
 
+
 class Deck:
     """
     Builds all the decks used a UNO game
 
     """
+
     _NUM_CARD_WIDTH = 125
     _CARD_HEIGHT = 200
     _SPECIAL_CARD_WIDTH = 115
@@ -186,31 +188,50 @@ class Deck:
             original_deck: A list type that represents the main eck of cards from the UNO game
             containing all the UNO cards at the start before distribution and play
         """
-        #setup for regular cards:
-        sprite_sheet_regular = pygame.image.load('Assets/Uno_Cards_numbers.png').convert_alpha()
+        # setup for regular cards:
+        sprite_sheet_regular = pygame.image.load(
+            "Assets/Uno_Cards_numbers.png"
+        ).convert_alpha()
         regular_card_sheet = sprite_sheet.SpriteSheet(sprite_sheet_regular)
 
-        #setup for special cards:
-        sprite_sheet_special = pygame.image.load('Assets/Uno_Cards_Special.png').convert_alpha()
+        # setup for special cards:
+        sprite_sheet_special = pygame.image.load(
+            "Assets/Uno_Cards_Special.png"
+        ).convert_alpha()
         special_card_sheet = sprite_sheet.SpriteSheet(sprite_sheet_special)
-
 
         self.main_deck = original_deck
         colors = ["red", "yellow", "green", "blue"]
-        special_cards = ["red","yellow","green","blue","wild"]
-        special_values = [2,2,2,2,10]
-        functions = ["pluscard", "pluscard","pluscard","pluscard", "wildcard"]
+        special_cards = ["red", "yellow", "green", "blue", "wild"]
+        special_values = [2, 2, 2, 2, 10]
+        functions = ["pluscard", "pluscard", "pluscard", "pluscard", "wildcard"]
 
-        #setting up regular cards
+        # setting up regular cards
         for i in range(len(colors)):
-            self.main_deck.extend([Card(colors[i], num, regular_card_sheet.get_image(
-                                        (num + i*10), Deck._NUM_CARD_WIDTH, Deck._CARD_HEIGHT, 1.5))
-                                        for num in range(0, 11)])
-        #setting up special cards
+            self.main_deck.extend(
+                [
+                    Card(
+                        colors[i],
+                        num,
+                        regular_card_sheet.get_image(
+                            (num + i * 10), Deck._NUM_CARD_WIDTH, Deck._CARD_HEIGHT, 1.5
+                        ),
+                    )
+                    for num in range(0, 11)
+                ]
+            )
+        # setting up special cards
         for i in range(len(special_cards)):
-            self.main_deck.append(Card(special_cards[i],special_values[i],
-                                       special_card_sheet.get_image(i, Deck._SPECIAL_CARD_WIDTH,Deck._CARD_HEIGHT, 1.5),
-                                        functions[i]))
+            self.main_deck.append(
+                Card(
+                    special_cards[i],
+                    special_values[i],
+                    special_card_sheet.get_image(
+                        i, Deck._SPECIAL_CARD_WIDTH, Deck._CARD_HEIGHT, 1.5
+                    ),
+                    functions[i],
+                )
+            )
 
         self.played_cards = []
 
