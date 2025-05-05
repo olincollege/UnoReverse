@@ -7,9 +7,9 @@ from uno_view import View
 # setup for the event
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()  # internal clock. May ve visualized in View
-model = UNOGAMEMODEL
-controller = MouseController(model)
-view = View(model)
+Model = UNOGAMEMODEL([])
+controller = MouseController(Model)
+view = View(Model)
 RUNNING = True  # is the game running?
 DT = 0  # start time
 pygame.QUIT = RUNNING is False
@@ -26,17 +26,26 @@ while RUNNING:
     # runs frame by frame, so you don't see cards in the background
     screen.fill("blue")
 
-    # runs a single round of game
-    # model.countdown(30)
-    # model.human_players_turn()
-    # model.computer_player_turn()
-    # view # update view
-    # model.check_computer_uno
-    # model.check_computer_unoout
-    # model.check_for_winner
+    # runs a single round of game, should be the layout of event
+    Model.countdown(30)
+    Model.human_players_turn()  # need to know what card is clicked as input
+    Model.check_for_winner()
 
-    if (
-        model.deck.computer_deck.is_winner is True
-        or model.deck.player_deck.is_winner is True
-    ):
+    if Model.deck.human_deck.is_winner is True:
         RUNNING = False
+        continue
+
+    Model.computer_player_turn()
+    view  # update view
+    Model.check_computer_uno()
+    Model.check_computer_uno_out()
+    Model.check_for_winner()
+
+    if Model.deck.computer_deck.is_winner is True:
+        RUNNING = False
+
+if Model.deck.computer_deck.is_winner is True:
+    print("The Computer has won! Better luck next time")
+
+elif Model.deck.human_deck.is_winner is True:
+    print("You win!!! Great job!!!")
