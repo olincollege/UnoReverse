@@ -58,12 +58,12 @@ class View:
         text_pass=self.font.render("Pass", True, self.text)
         text_pass_rectangle=text_draw.get_rect(center=pass_button.center)
         self.screen.blit(text_pass,text_pass_rectangle)
-    def get_top_card(self, top_card):
-        """Get the top card"""
-        return top_card
-    def get_player_hand(self, player_hand):
-        """Get details of the player's cards on hand"""
-        return player_hand
-    def get_computer_hand(self, computer_hand_count):
-        """Get the number of cards that the computer left on hand"""
-        return computer_hand_count
+    def load_card_images(self, spreadsheet_path):
+        """Load all the card images listed in the spreadsheet and store them in a dictionary."""
+        pass
+    def draw_player_hand(self, player_hand):
+        """Render the player's hand using images uploaded"""
+        pass
+    def draw_top_card(self, top_card):
+        """show the image of the last card played on the deck"""
+        pass
