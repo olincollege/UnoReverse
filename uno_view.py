@@ -11,12 +11,12 @@ class View:
     visual-related game state like the top card, player's hand, and computer's hand count.
 
     """
+    pygame.init()
 
     def __init__(self):
-        pygame.init()
-        self.screen_width = 1200
-        self.screen_height = 900
-        self.background_color = (30, 120, 30)
+        self.screen_width = 1400
+        self.screen_height = 800
+        self.background_color = (211, 153, 242)
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("UNO Game")
         self.red = (200, 50, 50)
@@ -78,10 +78,6 @@ class View:
         text_pass = self.font.render("Pass", True, self.text)
         text_pass_rectangle = text_draw.get_rect(center=pass_button.center)
         self.screen.blit(text_pass, text_pass_rectangle)
-
-    def load_card_images(self, spreadsheet_path):
-        """Load all the card images listed in the spreadsheet and store them in a dictionary."""
-        pass
 
     def draw_player_hand(self, player_hand):
         """Render the player's hand using images uploaded"""

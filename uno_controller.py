@@ -14,6 +14,14 @@ class MouseController:
 
 
     def handle_mouse_event(self, event):
-        pass
-        #this should have the if/checks
-
+        while True:
+            for event in pygame.event.get():
+                    if event.type == QUIT:
+                        pygame.quit()
+                        return
+                    elif event.type == MOUSEWHEEL:
+                        print(event)
+                        print(event.x, event.y)
+                        print(event.flipped)
+                        print(event.which)
+            clock.tick(60)

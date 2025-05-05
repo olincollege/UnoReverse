@@ -5,85 +5,21 @@ the player details, the card details
 
 from random import shuffle
 import time
+import pygame
+import sprite_sheet
 
 
-class PlayerDetails:
-    """
-    Saves the nessaccary information that the players need for an UNO game
-    """
-
-    def __init__(self, personal_cards):
-        """
-        Initiliazes all the relevent details a player in an UNO game needs, including their hand,
-        if they called UNO or UNO OUT, and whether or not it is their turn
-
-        Args:
-            personal_cards: A list type representing the personal hand of cards for the
-            human interactive player in the UNO game
-        """
-        self.hand = personal_cards
-        self.uno = False
-        self.unoout = False
-        self.my_turn = True
-        self.is_winner = False
-
-    def declare_win(self):
-        """
-        Prints a statement declaring the player has won if they have no more cards
-        and called UNO and UNO OUT
-        """
-        if self.hand == 0 and self.uno and self.unoout:
-            print("You win!!!")
-
-    def __repr__(self):
-        pass
-
-
-class ComputerDetails:
-    """
-    Saves the details about the virtual 'computer' player for an UNO game
-    """
-
-    def __init__(self, personal_cards):
-        """
-        Initiliazes all the relevent details a player in an UNO game needs, including their hand,
-        if they called UNO or UNO OUT, and whether or not it is their turn
-
-        Args:
-            personal_cards: A list type representing the personal hand of cards for the
-            virtual player in the UNO game
-
-        """
-        self.hand = personal_cards
-        self.uno = False
-        self.unoout = False
-        self.my_turn = False
-        self.is_winner = False
-
-    def declare_win(self):
-        """
-        Prints a statement declaring the virtual player has won if they have no more cards
-        and called UNO and UNO OUT
-        """
-        if self.hand == 0 and self.uno and self.unoout:
-            print("The computer wins!!!")
-
-    def __repr__(self):
-        pass
-
-
-class Card:
+class Card(pygame.sprite.Sprite):
     """
     Sets up the classifications and style of uno cards and assigns
     sub function to cards that have special effects
     """
 
-    def __init__(self, suit, value, image):
+    def __init__(self, suit, value, image, function = None):
         self.suit = suit
         self.value = value
         self.image = image
-        self.function = None
-        
+        self.function = function
 
     def _wild_effect(self, wild_card):
         """
@@ -141,15 +77,105 @@ class Card:
                     placed_card, main_deck_instance, computer_instance, player_instance
                 )
 
+    def draw(self, screen, x, y):
+        """
+        Allows the model to draw the sprite used in view
+
+        Args:
+            screen: a surface representing our game screen
+            x: the x-cord of the top corner of where we want our sprite
+            y: the x-cord of the top corner of where we want our sprite
+        """
+        screen.blit(self.image,(x,y))
+
     def __repr__(self):
         return f"this card is a {self.suit} {self.value}"
 
+
+class PlayerDetails:
+    """
+    Saves the nessaccary information that the players need for an UNO game
+    """
+
+    def __init__(self, personal_cards):
+        """
+        Initiliazes all the relevent details a player in an UNO game needs, including their hand,
+        if they called UNO or UNO OUT, and whether or not it is their turn
+
+        Args:
+            personal_cards: A list type representing the personal hand of cards for the
+            human interactive player in the UNO game
+        """
+        self.hand = personal_cards
+        self.uno = False
+        self.unoout = False
+        self.my_turn = True
+        self.is_winner = False
+
+    def draw_hand(self, screen, x, y):
+        """
+        Allows the model to draw the sprite used in view
+
+        Args:
+            screen: a surface representing our game screen
+            x: the x-cord of the top corner of where we want our sprite
+            y: the x-cord of the top corner of where we want our sprite
+        """
+        for i in range(len(self.hand)):
+            self.hand[i].draw(screen, x+(i*self.hand[i].image.get_width()),y)
+
+    def declare_win(self):
+        """
+        Prints a statement declaring the player has won if they have no more cards
+        and called UNO and UNO OUT
+        """
+        if self.hand == 0 and self.uno and self.unoout:
+            print("You win!!!")
+
+    def __repr__(self):
+        pass
+
+
+class ComputerDetails:
+    """
+    Saves the details about the virtual 'computer' player for an UNO game
+    """
+
+    def __init__(self, personal_cards):
+        """
+        Initiliazes all the relevent details a player in an UNO game needs, including their hand,
+        if they called UNO or UNO OUT, and whether or not it is their turn
+
+        Args:
+            personal_cards: A list type representing the personal hand of cards for the
+            virtual player in the UNO game
+
+        """
+        self.hand = personal_cards
+        self.uno = False
+        self.unoout = False
+        self.my_turn = False
+        self.is_winner = False
+
+    def declare_win(self):
+        """
+        Prints a statement declaring the virtual player has won if they have no more cards
+        and called UNO and UNO OUT
+        """
+        if self.hand == 0 and self.uno and self.unoout:
+            print("The computer wins!!!")
+
+    def __repr__(self):
+        pass
 
 class Deck:
     """
     Builds all the decks used a UNO game
 
     """
+    _NUM_CARD_WIDTH = 125
+    _CARD_HEIGHT = 200
+    _SPECIAL_CARD_WIDTH = 115
 
     def __init__(self, original_deck):
         """
@@ -160,30 +186,31 @@ class Deck:
             original_deck: A list type that represents the main eck of cards from the UNO game
             containing all the UNO cards at the start before distribution and play
         """
+        #setup for regular cards:
+        sprite_sheet_regular = pygame.image.load('Assets/Uno_Cards_numbers.png').convert_alpha()
+        regular_card_sheet = sprite_sheet.SpriteSheet(sprite_sheet_regular)
+
+        #setup for special cards:
+        sprite_sheet_special = pygame.image.load('Assets/Uno_Cards_Special.png').convert_alpha()
+        special_card_sheet = sprite_sheet.SpriteSheet(sprite_sheet_special)
+
+
         self.main_deck = original_deck
+        colors = ["red", "yellow", "green", "blue"]
+        special_cards = ["red","yellow","green","blue","wild"]
+        special_values = [2,2,2,2,10]
+        functions = ["pluscard", "pluscard","pluscard","pluscard", "wildcard"]
 
-        for color in ["red", "yellow", "green", "blue"]:
-            self.main_deck.extend([Card(color, i) for i in range(0, 10)])
-
-        wild1 = Card("wild", 10)
-        wild1.function = "wildcard"
-        self.main_deck.append(wild1)
-
-        redplus2 = Card("red", 2)
-        redplus2.function = "pluscard"
-        self.main_deck.append(redplus2)
-
-        yellowplus2 = Card("yellow", 2)
-        yellowplus2.function = "pluscard"
-        self.main_deck.append(yellowplus2)
-
-        greenplus2 = Card("green", 2)
-        greenplus2.function = "pluscard"
-        self.main_deck.append(greenplus2)
-
-        blueplus2 = Card("blue", 2)
-        blueplus2.function = "pluscard"
-        self.main_deck.append(blueplus2)
+        #setting up regular cards
+        for i in range(len(colors)):
+            self.main_deck.extend([Card(colors[i], num, regular_card_sheet.get_image(
+                                        (num + i*10), Deck._NUM_CARD_WIDTH, Deck._CARD_HEIGHT, 1.5))
+                                        for num in range(0, 11)])
+        #setting up special cards
+        for i in range(len(special_cards)):
+            self.main_deck.append(Card(special_cards[i],special_values[i],
+                                       special_card_sheet.get_image(i, Deck._SPECIAL_CARD_WIDTH,Deck._CARD_HEIGHT, 1.5),
+                                        functions[i]))
 
         self.played_cards = []
 
