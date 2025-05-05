@@ -50,4 +50,3 @@ class MouseController:
 
             pygame.display.update()
             mainClock.tick(60)
-                         
