@@ -2,7 +2,8 @@ import pygame
 import sprite_sheet
 
 
-class View:
+
+class View(Model):
     """
     View class for the UNO game using Pygame.
 
@@ -89,8 +90,11 @@ class View:
 
     def draw_player_hand(self, player_hand):
         """Render the player's hand using images uploaded"""
-        pass
+        x_position=0
+        for card in player_hand:
+            self.screen.blit(card,x_position,150)
+            x_position=+150
 
     def draw_top_card(self, top_of_deck):
         """show the image of the last card played on the deck"""
-        pass
+        self.screen.blit(top_of_deck,self.screen_width // 2,self.screen_height//2)
