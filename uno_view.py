@@ -1,4 +1,5 @@
 import pygame
+from Source.uno_model import UNOGAMEMODEL
 import sprite_sheet
 
 
@@ -15,7 +16,7 @@ class View:
 
     pygame.init()
 
-    def __init__(self):
+    def __init__(self, model):
         self.screen_width = 1400
         self.screen_height = 800
         self.background_color = (211, 153, 242)
@@ -39,6 +40,7 @@ class View:
         self.text = (255, 255, 255)
         self.font = pygame.font.Font(None, 36)
         self.buttons = {}
+        self.model = model
 
     def draw_background(self):
         """Fill the background with the determined color"""
@@ -81,25 +83,20 @@ class View:
         text_uno_out_rectangle = text_draw.get_rect(center=uno_out_button.center)
         self.screen.blit(text_uno_out, text_uno_out_rectangle)
 
-    def draw_player_hand(self, player_hand):
+    def draw_player_hand(self):
         """
         Render the player's hand using images uploaded
-        Args:
-            player_hand: a list of cards that the player current has
-        
         """
         x_position=0
-        for card in player_hand:
-            self.screen.blit(card,(x_position,150))
+        for card in self.model.player_hand:
+            self.screen.blit(card.image,(x_position,150))
             x_position+=150
 
-    def draw_top_card(self, top_of_deck):
+    def draw_top_card(self):
         """
         Show the image of the last card played on the deck
-        Args:
-            top_of_deck: the card that has just been played
         """
-        self.screen.blit(top_of_deck,(self.screen_width // 2,self.screen_height//2))
+        self.screen.blit(self.model.deck.played_cards[-1].image,(self.screen_width // 2,self.screen_height//2))
 
     def display_win_message(self, winner):
         """
@@ -112,3 +109,34 @@ class View:
             f"The winner is {winner}!!!!!!!", True, (255, 255, 255)
         )
         self.screen.blit(winner_text, (550, 400))
+
+if __name__ == "__main__":
+    import pygame
+    pygame.init()
+
+    clock = pygame.time.Clock()
+    view = View(UNOGAMEMODEL)
+
+    # Create fake card surfaces for testing
+    red_card = pygame.Surface((100, 150))
+    red_card.fill((255, 0, 0))
+    blue_card = pygame.Surface((100, 150))
+    blue_card.fill((0, 0, 255))
+
+    player_hand = [red_card] * 5  # 5 red cards
+    top_card = blue_card  # blue top card
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        view.draw_background()
+        view.draw_buttons()
+        view.draw_player_hand()
+        view.draw_top_card()
+        pygame.display.flip()
+        clock.tick(30)
+
+    pygame.quit()
