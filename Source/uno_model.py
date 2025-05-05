@@ -417,3 +417,38 @@ class UNOGAMEMODEL:
         """
 
         self.deck.human_deck.unoout = True
+
+    def check_player_uno(self):
+        """
+        Checks if the player is currently at uno specifically for situations where they call uno
+        then lose it, to reset their uno status.
+        """
+
+        if len(self.player_hand) != 1:
+            self.deck.human_deck.uno = False
+
+    def check_computer_uno(self):
+        """
+        Checks if the computer player has 1 card left and qualifies for uno status,
+        declaring uno if it is true
+        """
+
+        if len(self.computer_hand) == 1 or len(self.computer_hand) == 0:
+            self.deck.computer_deck.uno = True
+            print("Computer calls UNO")
+
+        else:
+            self.deck.computer_deck.uno = False
+
+    def check_computer_uno_out(self):
+        """
+        Checks if the computer player has no cards left and qualifies for uno out status,
+        declaring uno out if it is true
+        """
+
+        if len(self.computer_hand) == 0:
+            self.deck.computer_deck.unoout = True
+            print("Computer calls UNO OUT! They win!")
+
+        else:
+            self.deck.computer_deck.unoout = False

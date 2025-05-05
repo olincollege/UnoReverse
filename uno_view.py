@@ -50,6 +50,14 @@ class View:
         text_uno=self.font.render("UNO", True, self.text)
         text_uno_rectangle=text_draw.get_rect(center=uno_button.center)
         self.screen.blit(text_uno,text_uno_rectangle)
+        #uno_out
+        uno_out_button_position_x=horizontal_center
+        uno_out_button=pygame.Rect(uno_out_button_position_x,position_y,button_width,button_height)
+        self.buttons["UNO OUT"]=uno_out_button
+        pygame.draw.rect(self.screen,self.gray,uno_out_button)
+        text_uno_out=self.font.render("UNO OUT", True, self.text)
+        text_uno_out_rectangle=text_draw.get_rect(center=uno_out_button.center)
+        self.screen.blit(text_uno_out,text_uno_out_rectangle)
         #Pass
         pass_button_position_x=horizontal_center+70
         pass_button=pygame.Rect(pass_button_position_x,position_y,button_width,button_height)
@@ -58,12 +66,12 @@ class View:
         text_pass=self.font.render("Pass", True, self.text)
         text_pass_rectangle=text_draw.get_rect(center=pass_button.center)
         self.screen.blit(text_pass,text_pass_rectangle)
-    def get_top_card(self, top_card):
-        """Get the top card"""
-        return top_card
-    def get_player_hand(self, player_hand):
-        """Get details of the player's cards on hand"""
-        return player_hand
-    def get_computer_hand(self, computer_hand_count):
-        """Get the number of cards that the computer left on hand"""
-        return computer_hand_count
+    def load_card_images(self, spreadsheet_path):
+        """Load all the card images listed in the spreadsheet and store them in a dictionary."""
+        pass
+    def draw_player_hand(self, player_hand):
+        """Render the player's hand using images uploaded"""
+        pass
+    def draw_top_card(self, top_card):
+        """show the image of the last card played on the deck"""
+        pass
