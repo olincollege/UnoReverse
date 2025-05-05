@@ -2,8 +2,7 @@ import pygame
 import sprite_sheet
 
 
-
-class View(Model):
+class View:
     """
     View class for the UNO game using Pygame.
 
@@ -13,13 +12,18 @@ class View(Model):
     visual-related game state like the top card, player's hand, and computer's hand count.
 
     """
+
     pygame.init()
-    #setup for regular cards:
-    sprite_sheet_regular = pygame.image.load('Assets/Uno_Cards_numbers.png').convert_alpha()
+    # setup for regular cards:
+    sprite_sheet_regular = pygame.image.load(
+        "Assets/Uno_Cards_numbers.png"
+    ).convert_alpha()
     regular_card_sheet = sprite_sheet.SpriteSheet(sprite_sheet_regular)
 
-    #setup for special cards:
-    sprite_sheet_special = pygame.image.load('Assets/Uno_Cards_Special.png').convert_alpha()
+    # setup for special cards:
+    sprite_sheet_special = pygame.image.load(
+        "Assets/Uno_Cards_Special.png"
+    ).convert_alpha()
     special_card_sheet = sprite_sheet.SpriteSheet(sprite_sheet_special)
 
     def __init__(self):
@@ -90,11 +94,20 @@ class View(Model):
 
     def draw_player_hand(self, player_hand):
         """Render the player's hand using images uploaded"""
-        x_position=0
-        for card in player_hand:
-            self.screen.blit(card,x_position,150)
-            x_position=+150
+        pass
 
     def draw_top_card(self, top_of_deck):
         """show the image of the last card played on the deck"""
-        self.screen.blit(top_of_deck,self.screen_width // 2,self.screen_height//2)
+        pass
+
+    def display_win_message(self, winner):
+        """
+        Displays a message declaring the winner of an UNO game
+
+        Args:
+            winner: A string type representing the player who has won an UNO game
+        """
+        winner_text = self.font.render(
+            f"The winner is {winner}!!!!!!!", True, (255, 255, 255)
+        )
+        self.screen.blit(winner_text, (550, 400))

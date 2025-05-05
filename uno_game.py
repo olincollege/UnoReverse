@@ -36,7 +36,7 @@ while RUNNING:
         continue
 
     Model.computer_player_turn()
-    view  # update view
+    view.screen  # update view
     Model.check_computer_uno()
     Model.check_computer_uno_out()
     Model.check_for_winner()
@@ -45,7 +45,7 @@ while RUNNING:
         RUNNING = False
 
 if Model.deck.computer_deck.is_winner is True:
-    print("The Computer has won! Better luck next time")
+    view.display_win_message("the computer")
 
 elif Model.deck.human_deck.is_winner is True:
-    print("You win!!! Great job!!!")
+    view.display_win_message("you")
