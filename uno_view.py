@@ -58,6 +58,16 @@ class View:
         text_uno = self.font.render("UNO", True, self.text)
         text_uno_rectangle = text_draw.get_rect(center=uno_button.center)
         self.screen.blit(text_uno, text_uno_rectangle)
+        # uno_out
+        uno_out_button_position_x = horizontal_center
+        uno_out_button = pygame.Rect(
+            uno_out_button_position_x, position_y, button_width, button_height
+        )
+        self.buttons["UNO OUT"] = uno_out_button
+        pygame.draw.rect(self.screen, self.gray, uno_out_button)
+        text_uno_out = self.font.render("UNO OUT", True, self.text)
+        text_uno_out_rectangle = text_draw.get_rect(center=uno_out_button.center)
+        self.screen.blit(text_uno_out, text_uno_out_rectangle)
         # Pass
         pass_button_position_x = horizontal_center + 70
         pass_button = pygame.Rect(
