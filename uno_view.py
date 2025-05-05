@@ -82,14 +82,23 @@ class View:
         self.screen.blit(text_uno_out, text_uno_out_rectangle)
 
     def draw_player_hand(self, player_hand):
-        """Render the player's hand using images uploaded"""
+        """
+        Render the player's hand using images uploaded
+        Args:
+            player_hand: a list of cards that the player current has
+        
+        """
         x_position=0
         for card in player_hand:
             self.screen.blit(card,(x_position,150))
             x_position+=150
 
     def draw_top_card(self, top_of_deck):
-        """show the image of the last card played on the deck"""
+        """
+        Show the image of the last card played on the deck
+        Args:
+            top_of_deck: the card that has just been played
+        """
         self.screen.blit(top_of_deck,(self.screen_width // 2,self.screen_height//2))
 
     def display_win_message(self, winner):
