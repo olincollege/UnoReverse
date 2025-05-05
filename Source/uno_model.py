@@ -76,10 +76,12 @@ class Card:
     sub function to cards that have special effects
     """
 
-    def __init__(self, suit, value):
+    def __init__(self, suit, value, image):
         self.suit = suit
         self.value = value
+        self.image = image
         self.function = None
+        
 
     def _wild_effect(self, wild_card):
         """
