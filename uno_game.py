@@ -27,9 +27,13 @@ while RUNNING:
     screen.fill("blue")
 
     # runs a single round of game
+    # model.countdown(30)
     # model.human_players_turn()
     # model.computer_player_turn()
     # view # update view
+    # model.check_computer_uno
+    # model.check_computer_unoout
+    # model.check_for_winner
 
     if (
         model.deck.computer_deck.is_winner is True
