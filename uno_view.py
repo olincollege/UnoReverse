@@ -1,3 +1,10 @@
+"""
+This module defines the View class for the UNO game using the Pygame library, 
+including the background setup, buttons
+and displaying the player's hand and the last card being played
+
+"""
+
 import pygame
 from Source.uno_model import UNOGAMEMODEL
 import sprite_sheet
@@ -94,7 +101,8 @@ class View:
         """
         Show the image of the last card played on the deck
         """
-        screen.blit(self.model.deck.played_cards[-1].image,(self.screen_width // 2,self.screen_height//2))
+        screen.blit(self.model.deck.played_cards[-1].image,
+                    (self.screen_width // 2,self.screen_height//2))
 
     def display_win_message(self, screen, winner):
         """
@@ -126,11 +134,11 @@ if __name__ == "__main__":
     player_hand = [red_card] * 5  # 5 red cards
     top_card = blue_card  # blue top card
 
-    running = True
-    while running:
+    RUNNING = True
+    while RUNNING:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                RUNNING = False
 
         view.draw_background(screen)
         view.draw_buttons(screen)
