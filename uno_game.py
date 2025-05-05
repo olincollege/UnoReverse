@@ -24,9 +24,8 @@ while RUNNING:
         controller.mouse_controller_update(event)
         
         if controller.clicked:
-            controller.interact_with_card
-            controller.interact_with_uno
-            controller
+            controller.interact_with_card(Model)
+            controller.interact_with_uno_button(Model, view.draw_button)
 
     # runs frame by frame, so you don't see cards in the background
     screen.fill("blue")
@@ -37,7 +36,7 @@ while RUNNING:
             Model.pick_a_card(Model.player_hand)
 
     Model.human_players_turn()  # need to know what card is clicked as input
-    Model.check_player_uno
+    Model.check_player_uno()
     Model.check_for_winner()
 
     if Model.deck.human_deck.is_winner is True:

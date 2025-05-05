@@ -30,16 +30,28 @@ class MouseController:
             Use this to help implement the mouse in an event
         """
             #track mouse position
-        mouse_x, mouse_y = pygame.mouse.get_pos()
+        self.mouse_x, self.mouse_y = pygame.mouse.get_pos()
 
         if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
-                clicking = True
+                self.clicked = True
         elif event.type == MOUSEBUTTONUP:
             if event. button == 1:
-                clicking = False
+                self.clicked = False
 
-    def interact_with_card(self, card):
-        #if self.mouse_x within card_box and self.mouse_y within card box
-            pygame.Rect.collidepoint
-            card.image.get_rect().collidepoint
+    def interact_with_card(self, model):
+        """
+            controls how player interacts with card objects
+        """
+
+        for i, _ in enumerate((model.player_hand)):
+            if model.player_hand[i].image.get_rect().collidepoint(self.mouse_x, self.mouse_y) \
+            and model.is_valid_move(model.player_hand[i]):
+                model.human_players_turn(model.player_hand[i])
+                break
+
+    def interact_with_uno_button(self, model, uno_button):
+
+        if uno_button.collidepoint(self.mouse_x, self.mouse_y):
+            pass
+
