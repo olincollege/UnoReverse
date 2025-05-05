@@ -25,6 +25,7 @@ class PlayerDetails:
         self.uno = False
         self.unoout = False
         self.my_turn = True
+        self.is_winner = False
 
     def declare_win(self):
         """
@@ -57,6 +58,7 @@ class ComputerDetails:
         self.uno = False
         self.unoout = False
         self.my_turn = False
+        self.is_winner = False
 
     def declare_win(self):
         """
@@ -313,25 +315,24 @@ class UNOGAMEMODEL:
         personal_hand.append(self.deck.main_deck[0])
         del self.deck.main_deck[0]
 
-    def check_for_winner(self, player_instant):
+    def check_for_winner(self):
         """
         Checks if a player has won the game
-
-        Args:
-            player_intant: A intant of a class type representing a player in the game
-
-        Returns:
-            True if the specific player has won and False otherwise
         """
 
         if (
-            len(player_instant.hand) == 0
-            and player_instant.uno
-            and player_instant.unoout
+            len(self.player_hand) == 0
+            and self.deck.human_deck.uno
+            and self.deck.human_deck.unoout
         ):
-            return True
+            self.deck.human_deck.is_winner = True
 
-        return False
+        if (
+            len(self.computer_hand) == 0
+            and self.deck.computer_deck.uno
+            and self.deck.computer_deck.unoout
+        ):
+            self.deck.computer_deck.is_winner = True
 
     def human_players_turn(self, picked_card):
         """
