@@ -1,27 +1,53 @@
 """
 Controller for our Final Project's version of UNO
 """
-import pygame
-#from Source.uno_model import UNOGAMEMODEL
+#import pygame
+import pygame, sys
+from pygame.locals import *
+
+#setup pygame
+mainClock = pygame.time.Clock()
+pygame.init()
+
+clicking = False
 
 class MouseController:
     """
-        Insert more finalized doctstring later
+        Tell when the mouse is clicking on a button or a carrd
     """
-    def __init__(self, model):
+    
+
+    def __init__(self, model, rect):
 
         self._model = model
+        self.clicked = False
+        self.rect = rect
 
 
     def handle_mouse_event(self, event):
+        """
+            Use this to help implement the mouse in an event
+        """
+
         while True:
+
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+
             for event in pygame.event.get():
-                    if event.type == QUIT:
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == KEYDOWN:
+                    if event.key == K_ESCAPE:
                         pygame.quit()
-                        return
-                    elif event.type == MOUSEWHEEL:
-                        print(event)
-                        print(event.x, event.y)
-                        print(event.flipped)
-                        print(event.which)
-            clock.tick(60)
+                        sys.exit()
+                if event.type == MOUSEBUTTONDOWN: #need to add when to play card?
+                    if event.button == 1:
+                        clicking = True
+                if event.type == MOUSEBUTTONUP:
+                    if event.button == 1:
+                        clicking = False
+
+            pygame.display.update()
+            mainClock.tick(60)
+                         

@@ -1,4 +1,5 @@
 import pygame
+import sprite_sheet
 
 
 class View:
@@ -12,6 +13,13 @@ class View:
 
     """
     pygame.init()
+    #setup for regular cards:
+    sprite_sheet_regular = pygame.image.load('Assets/Uno_Cards_numbers.png').convert_alpha()
+    regular_card_sheet = sprite_sheet.SpriteSheet(sprite_sheet_regular)
+
+    #setup for special cards:
+    sprite_sheet_special = pygame.image.load('Assets/Uno_Cards_Special.png').convert_alpha()
+    special_card_sheet = sprite_sheet.SpriteSheet(sprite_sheet_special)
 
     def __init__(self):
         self.screen_width = 1400
@@ -83,6 +91,6 @@ class View:
         """Render the player's hand using images uploaded"""
         pass
 
-    def draw_top_card(self, top_card):
+    def draw_top_card(self, top_of_deck):
         """show the image of the last card played on the deck"""
         pass
