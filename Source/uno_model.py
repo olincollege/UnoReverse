@@ -231,10 +231,11 @@ class Deck:
         # print(self.main_deck)
 
         self.human_deck.hand.extend(self.main_deck[0:7])
-        del self.main_deck[0:6]
+        self.main_deck = self.main_deck[7:]
 
         self.computer_deck.hand.extend(self.main_deck[0:7])
         del self.main_deck[0:6]
+        self.main_deck = self.main_deck[7:]
 
         position = 0
         start_card = self.main_deck[position]
@@ -299,7 +300,7 @@ class UNOGAMEMODEL:
         Return:
             Return the sub class of the player whose current turn it is
         """
-        if self.player_turn is True:
+        if self.player_turn:
             self.computer_turn = True
             self.player_turn = False
 
@@ -341,6 +342,7 @@ class UNOGAMEMODEL:
         """
 
         if len(self.draw_deck) == 0:
+            print("refills")
             self.deck.refill()
 
         personal_hand.append(self.draw_deck[0])
@@ -365,7 +367,7 @@ class UNOGAMEMODEL:
         ):
             self.deck.computer_deck.is_winner = True
 
-    def human_players_turn(self, button_pressed):
+    def human_players_turn(self, button_pressed, picked_card = None):
         """
         Runs a turn for the human player in an UNO game
 
@@ -373,12 +375,15 @@ class UNOGAMEMODEL:
             picked_card: An integer or string type representing the position of
                 the card in the players hand that they want to play in the game (if an integer)
                 or t+he desire to pick a card for their turn (if a string)
-            personal_hand: A list representing the human player's hand
+            botton_pressed: A parameter checking if the button is pressed
 
         """
 
-        if button_pressed is True:
+        if button_pressed:
             self.pick_a_card(self.player_hand)
+        else:
+            self.deck.played_cards.append(self.player_hand[picked_card])
+            self.player_hand.pop(picked_card)
 
         self._flip_next_move()
 
@@ -461,7 +466,7 @@ class UNOGAMEMODEL:
 
         if len(self.computer_hand) == 1 or len(self.computer_hand) == 0:
             self.deck.computer_deck.uno = True
-            # print("Computer calls UNO")
+            print("Computer calls UNO")
 
         else:
             self.deck.computer_deck.uno = False
