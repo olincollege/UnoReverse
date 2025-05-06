@@ -340,6 +340,9 @@ class UNOGAMEMODEL:
             hand who is currently picking a card
         """
 
+        if len(self.draw_deck) == 0:
+            self.deck.refill()
+
         personal_hand.append(self.draw_deck[0])
         del self.draw_deck[0]
 
@@ -369,7 +372,7 @@ class UNOGAMEMODEL:
         Args:
             picked_card: An integer or string type representing the position of
                 the card in the players hand that they want to play in the game (if an integer)
-                or the desire to pick a card for their turn (if a string)
+                or t+he desire to pick a card for their turn (if a string)
             personal_hand: A list representing the human player's hand
 
         """

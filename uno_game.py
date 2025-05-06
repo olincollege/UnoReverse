@@ -12,12 +12,10 @@ controller = MouseController(Model)
 view = View(Model)
 RUNNING = True  # is the game running?
 DT = 0  # start time
-pygame.QUIT = RUNNING is False
 
 
 # everything should be in the "running" loop
 while RUNNING:
-    Model.deck.refill()
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -33,17 +31,6 @@ while RUNNING:
     # runs frame by frame, so you don't see cards in the background
     screen.fill("blue")
 
-    # # runs a single round of game, should be the layout of event
-    # while Model.countdown(30) is not "Time's Up!":
-    #     if draw.button clicking is True
-    #         Model.pick_a_card(Model.player_hand)
-
-    Model.human_players_turn(
-        controller.interact_with_card
-    )  # need to know what card is clicked as input
-    Model.check_player_uno()
-    Model.check_for_winner()
-
     if Model.deck.human_deck.is_winner is True:
         RUNNING = False
         continue
@@ -52,6 +39,7 @@ while RUNNING:
     pygame.display.update()
     Model.check_computer_uno()
     Model.check_computer_uno_out()
+    clock.tick(60)
     Model.check_for_winner()
 
     if Model.deck.computer_deck.is_winner is True:
