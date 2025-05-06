@@ -16,6 +16,7 @@ class Card(pygame.sprite.Sprite):
     """
 
     def __init__(self, suit, value, image, function=None):
+        super().__init__()
         self.suit = suit
         self.value = value
         self.image = image
@@ -88,9 +89,6 @@ class Card(pygame.sprite.Sprite):
         """
         screen.blit(self.image, (x, y))
 
-    def __repr__(self):
-        return f"this card is a {self.suit} {self.value}"
-
 
 class PlayerDetails:
     """
@@ -124,16 +122,6 @@ class PlayerDetails:
         for i in range(len(self.hand)):
             self.hand[i].draw(screen, x + (i * self.hand[i].image.get_width()), y)
 
-    def declare_win(self):
-        """
-        Prints a statement declaring the player has won if they have no more cards
-        and called UNO and UNO OUT
-        """
-        if self.hand == 0 and self.uno and self.unoout:
-            print("You win!!!")
-
-    def __repr__(self):
-        pass
 
 
 class ComputerDetails:
@@ -156,17 +144,6 @@ class ComputerDetails:
         self.unoout = False
         self.my_turn = False
         self.is_winner = False
-
-    def declare_win(self):
-        """
-        Prints a statement declaring the virtual player has won if they have no more cards
-        and called UNO and UNO OUT
-        """
-        if self.hand == 0 and self.uno and self.unoout:
-            print("The computer wins!!!")
-
-    def __repr__(self):
-        pass
 
 
 class Deck:
@@ -252,7 +229,7 @@ class Deck:
 
         shuffle(self.main_deck)
 
-        print(self.main_deck)
+        #print(self.main_deck)
 
         self.human_deck.hand.extend(self.main_deck[0:7])
         del self.main_deck[0:6]
@@ -285,9 +262,6 @@ class Deck:
 
             shuffle(temp_list)
             self.main_deck = temp_list
-
-    def __repr__(self):
-        pass
 
 
 class UNOGAMEMODEL:
@@ -345,7 +319,7 @@ class UNOGAMEMODEL:
             or number of the last card played. Return False otherwsie
         """
         top_of_deck = self.deck.played_cards[-1]
-        print(f"a {top_of_deck.value} {top_of_deck.suit} card")
+        #print(f"a {top_of_deck.value} {top_of_deck.suit} card")
 
         if (
             (card.suit == top_of_deck.suit)
@@ -483,7 +457,7 @@ class UNOGAMEMODEL:
 
         if len(self.computer_hand) == 1 or len(self.computer_hand) == 0:
             self.deck.computer_deck.uno = True
-            print("Computer calls UNO")
+            #print("Computer calls UNO")
 
         else:
             self.deck.computer_deck.uno = False
@@ -496,7 +470,7 @@ class UNOGAMEMODEL:
 
         if len(self.computer_hand) == 0:
             self.deck.computer_deck.unoout = True
-            print("Computer calls UNO OUT! They win!")
+            #print("Computer calls UNO OUT! They win!")
 
         else:
             self.deck.computer_deck.unoout = False

@@ -17,6 +17,7 @@ pygame.QUIT = RUNNING is False
 
 # everything should be in the "running" loop
 while RUNNING:
+    Model.deck.refill()
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
