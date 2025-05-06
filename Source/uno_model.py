@@ -123,7 +123,6 @@ class PlayerDetails:
             self.hand[i].draw(screen, x + (i * self.hand[i].image.get_width()), y)
 
 
-
 class ComputerDetails:
     """
     Saves the details about the virtual 'computer' player for an UNO game
@@ -229,7 +228,7 @@ class Deck:
 
         shuffle(self.main_deck)
 
-        #print(self.main_deck)
+        # print(self.main_deck)
 
         self.human_deck.hand.extend(self.main_deck[0:7])
         del self.main_deck[0:6]
@@ -283,6 +282,8 @@ class UNOGAMEMODEL:
 
         self.deck.shuffle_and_distribute()
 
+        self.draw_deck = self.deck.main_deck
+
         self.player_hand = self.deck.human_deck.hand
 
         self.player_turn = self.deck.human_deck.my_turn
@@ -319,7 +320,7 @@ class UNOGAMEMODEL:
             or number of the last card played. Return False otherwsie
         """
         top_of_deck = self.deck.played_cards[-1]
-        #print(f"a {top_of_deck.value} {top_of_deck.suit} card")
+        # print(f"a {top_of_deck.value} {top_of_deck.suit} card")
 
         if (
             (card.suit == top_of_deck.suit)
@@ -339,8 +340,8 @@ class UNOGAMEMODEL:
             hand who is currently picking a card
         """
 
-        personal_hand.append(self.deck.main_deck[0])
-        del self.deck.main_deck[0]
+        personal_hand.append(self.draw_deck[0])
+        del self.draw_deck[0]
 
     def check_for_winner(self):
         """
@@ -457,7 +458,7 @@ class UNOGAMEMODEL:
 
         if len(self.computer_hand) == 1 or len(self.computer_hand) == 0:
             self.deck.computer_deck.uno = True
-            #print("Computer calls UNO")
+            # print("Computer calls UNO")
 
         else:
             self.deck.computer_deck.uno = False
@@ -470,7 +471,7 @@ class UNOGAMEMODEL:
 
         if len(self.computer_hand) == 0:
             self.deck.computer_deck.unoout = True
-            #print("Computer calls UNO OUT! They win!")
+            # print("Computer calls UNO OUT! They win!")
 
         else:
             self.deck.computer_deck.unoout = False
