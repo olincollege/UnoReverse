@@ -32,7 +32,7 @@ class Card(pygame.sprite.Sprite):
         new_color = input("Choose a new color base")
         wild_card.suit = new_color
 
-    def _plus_card_effect(
+    def plus_card_effect(
         self, plus_card, current_deck, computer_instance, player_instance
     ):
         """

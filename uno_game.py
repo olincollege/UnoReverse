@@ -25,7 +25,9 @@ while RUNNING:
         
         if controller.clicked:
             controller.interact_with_card(Model)
-            controller.interact_with_uno_button(Model, view.draw_button)
+            controller.interact_with_uno_button(Model, view.buttons["UNO"])
+            controller.interact_with_uno_out_button(Model, view.buttons["UNO OUT"])
+            controller.interact_with_draw_button(Model, view.buttons["Draw"])
 
     # runs frame by frame, so you don't see cards in the background
     screen.fill("blue")

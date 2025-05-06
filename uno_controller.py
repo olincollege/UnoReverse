@@ -53,5 +53,18 @@ class MouseController:
     def interact_with_uno_button(self, model, uno_button):
 
         if uno_button.collidepoint(self.mouse_x, self.mouse_y):
-            pass
+            model.check_player_uno()
+            model.call_uno()
+
+    def interact_with_uno_out_button(self, model, uno_out_button):
+
+        if uno_out_button.collidepoint(self.mouse_x, model, self.mouse_y):
+            model.check_for_winner()
+            model.call_uno_out()
+            model.declare_winner()
+
+    def interact_with_draw_button(self, model, draw_button):
+
+        if draw_button.collidepoint(self.mouse_x, self.mouse_y):
+            model._plus_card_effect()
 
