@@ -18,11 +18,10 @@ class MouseController:
     Tell when the mouse is clicking on a button or a carrd
     """
 
-    def __init__(self, model, rect):
+    def __init__(self, model):
 
         self._model = model
         self.clicked = False
-        self.rect = rect
         self.mouse_x, self.mouse_y = pygame.mouse.get_pos()
 
     def mouse_controller_update(self, event):
