@@ -55,8 +55,8 @@ class View:
         """Draw needed buttons--Draw, UNO, and Pass at the right bottom of the screen"""
         button_width = 100
         button_height = 40
-        position_y = self.screen_height - 80
-        horizontal_center = self.screen_width // 2
+        position_y = self.screen_height - 200
+        horizontal_center = 300
         # Draw Card
         draw_button_position_x = horizontal_center - 170
         draw_button = pygame.Rect(
@@ -143,10 +143,10 @@ class View:
 #             if event.type == pygame.QUIT:
 #                 RUNNING = False
 
-#         view.draw_background(screen)
-#         view.draw_buttons(screen)
-#         # view.draw_player_hand(screen)
-#         view.draw_top_card(screen)
+        view.draw_background(screen)
+        view.draw_buttons(screen)
+        view.draw_player_hand(screen)
+        view.draw_top_card(screen)
 #         view.display_win_message(screen, "YOU")
 #         pygame.display.flip()
 #         clock.tick(30)
