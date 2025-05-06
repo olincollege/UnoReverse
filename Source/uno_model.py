@@ -175,9 +175,9 @@ class Deck:
 
     """
 
-    _NUM_CARD_WIDTH = 125
+    _NUM_CARD_WIDTH = 122
     _CARD_HEIGHT = 200
-    _SPECIAL_CARD_WIDTH = 115
+    _SPECIAL_CARD_WIDTH = 116.66
 
     def __init__(self, original_deck):
         """
@@ -202,8 +202,8 @@ class Deck:
 
         self.main_deck = original_deck
         colors = ["red", "yellow", "green", "blue"]
-        special_cards = ["red", "yellow", "green", "blue", "wild"]
-        special_values = [2, 2, 2, 2, 10]
+        special_cards = ["red", "yellow", "green", "blue"]
+        special_values = [2, 2, 2, 2]
         functions = ["pluscard", "pluscard", "pluscard", "pluscard", "wildcard"]
 
         # setting up regular cards
@@ -214,10 +214,13 @@ class Deck:
                         colors[i],
                         num,
                         regular_card_sheet.get_image(
-                            (num + i * 10), Deck._NUM_CARD_WIDTH, Deck._CARD_HEIGHT, 0.75
+                            (num + i * 10),
+                            Deck._NUM_CARD_WIDTH,
+                            Deck._CARD_HEIGHT,
+                            0.75,
                         ),
                     )
-                    for num in range(0, 11)
+                    for num in range(0, 10)
                 ]
             )
         # setting up special cards
@@ -227,7 +230,7 @@ class Deck:
                     special_cards[i],
                     special_values[i],
                     special_card_sheet.get_image(
-                        i, Deck._SPECIAL_CARD_WIDTH, Deck._CARD_HEIGHT, 1.5
+                        i, Deck._SPECIAL_CARD_WIDTH, Deck._CARD_HEIGHT, 0.75
                     ),
                     functions[i],
                 )
