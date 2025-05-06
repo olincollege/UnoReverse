@@ -387,7 +387,7 @@ class UNOGAMEMODEL:
         ):
             self.deck.computer_deck.is_winner = True
 
-    def human_players_turn(self, picked_card):
+    def human_players_turn(self, button_pressed):
         """
         Runs a turn for the human player in an UNO game
 
@@ -399,12 +399,8 @@ class UNOGAMEMODEL:
 
         """
 
-        if picked_card == "Pick":
+        if button_pressed is True:
             self.pick_a_card(self.player_hand)
-
-        else:
-            self.deck.played_cards.append(self.player_hand[picked_card])
-            self.player_hand.pop(picked_card)
 
         self._flip_next_move()
 

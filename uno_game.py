@@ -37,7 +37,7 @@ while RUNNING:
     #     if draw.button clicking is True
     #         Model.pick_a_card(Model.player_hand)
 
-    Model.human_players_turn(picked_card)  # need to know what card is clicked as input
+    Model.human_players_turn(controller.interact_with_card)  # need to know what card is clicked as input
     Model.check_player_uno()
     Model.check_for_winner()
 
@@ -46,7 +46,7 @@ while RUNNING:
         continue
 
     Model.computer_player_turn()
-    view.screen  # update view
+    pygame.display.update()
     Model.check_computer_uno()
     Model.check_computer_uno_out()
     Model.check_for_winner()
