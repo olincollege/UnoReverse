@@ -16,9 +16,12 @@ DT = 0  # start time
 
 # everything should be in the "running" loop
 while RUNNING:
+    #screen.fill("blue")
+    view.draw_background(screen)
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            print("is running")
             RUNNING = False
         controller.mouse_controller_update(event)
 
@@ -28,25 +31,33 @@ while RUNNING:
             controller.interact_with_uno_out_button(Model, view.buttons["UNO OUT"])
             controller.interact_with_draw_button(Model, view.buttons["Draw"])
 
-    # runs frame by frame, so you don't see cards in the background
-    screen.fill("blue")
 
-    if Model.deck.human_deck.is_winner is True:
+    if Model.deck.human_deck.is_winner:
+        print("won and end")
         RUNNING = False
         continue
 
-    Model.computer_player_turn()
+    if Model.computer_turn:
+        Model.computer_player_turn()
+        Model.check_computer_uno()
+        Model.check_computer_uno_out()
+
+    view.draw_player_hand(screen)
+    view.draw_top_card(screen)
+    view.draw_buttons(screen)
+
     pygame.display.update()
-    Model.check_computer_uno()
-    Model.check_computer_uno_out()
     clock.tick(60)
     Model.check_for_winner()
 
-    if Model.deck.computer_deck.is_winner is True:
+    if Model.deck.computer_deck.is_winner:
+        print("computer wins")
         RUNNING = False
 
-if Model.deck.computer_deck.is_winner is True:
+print("ends")
+
+if Model.deck.computer_deck.is_winner:
     view.display_win_message(screen, "the computer")
 
-elif Model.deck.human_deck.is_winner is True:
+elif Model.deck.human_deck.is_winner:
     view.display_win_message(screen, "you")
