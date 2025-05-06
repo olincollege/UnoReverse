@@ -13,6 +13,13 @@ class Card(pygame.sprite.Sprite):
     """
     Sets up the classifications and style of uno cards and assigns
     sub function to cards that have special effects
+
+    Args:
+        self.suit: A string type representing the color of the card
+        self.value: A integer type representing the number of the card
+        self.image: A sprite that holds the visual image of the card for viewing
+        self.function: A string type representing the kind of effect a card has, default set to None
+        self.rect: A rectangle frame representing the positioning of the image of the card
     """
 
     def __init__(self, suit, value, image, function=None):
@@ -21,6 +28,7 @@ class Card(pygame.sprite.Sprite):
         self.value = value
         self.image = image
         self.function = function
+        self.rect = self.image.get_rect()
 
     def _wild_effect(self, wild_card):
         """
@@ -65,9 +73,9 @@ class Card(pygame.sprite.Sprite):
             main_deck_instance: A class instant representing the current state of the
             main deck of the UNO game
 
-            computer_instance: A class instant representing the current version of a state of a
+            computer_instance: A class instant representing the current version of ComputerDetails
 
-            player_instance:
+            player_instance: A class instant representing the current version of PlayerDetails
         """
         match placed_card.function:
             case "wildcard":
@@ -87,6 +95,8 @@ class Card(pygame.sprite.Sprite):
             x: the x-cord of the top corner of where we want our sprite
             y: the x-cord of the top corner of where we want our sprite
         """
+        self.rect = pygame.Rect(x, y, self.rect.width, self.rect.height)
+
         screen.blit(self.image, (x, y))
 
 
@@ -188,15 +198,15 @@ class Deck:
                 [
                     Card(
                         colors[i],
-                        num,
+                        num + 1,
                         regular_card_sheet.get_image(
-                            (num + i * 10),
+                            (num + (i * 10)),
                             Deck._NUM_CARD_WIDTH,
                             Deck._CARD_HEIGHT,
                             0.75,
                         ),
                     )
-                    for num in range(0, 10)
+                    for num in [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
                 ]
             )
         # setting up special cards
@@ -227,8 +237,6 @@ class Deck:
         """
 
         shuffle(self.main_deck)
-
-        # print(self.main_deck)
 
         self.human_deck.hand.extend(self.main_deck[0:7])
         self.main_deck = self.main_deck[7:]
@@ -296,9 +304,6 @@ class UNOGAMEMODEL:
     def _flip_next_move(self):
         """
         Change which player's turn it is to make a move.
-
-        Return:
-            Return the sub class of the player whose current turn it is
         """
         if self.player_turn:
             self.computer_turn = True
@@ -321,7 +326,6 @@ class UNOGAMEMODEL:
             or number of the last card played. Return False otherwsie
         """
         top_of_deck = self.deck.played_cards[-1]
-        # print(f"a {top_of_deck.value} {top_of_deck.suit} card")
 
         if (
             (card.suit == top_of_deck.suit)
@@ -348,6 +352,8 @@ class UNOGAMEMODEL:
         personal_hand.append(self.draw_deck[0])
         del self.draw_deck[0]
 
+        self._flip_next_move()
+
     def check_for_winner(self):
         """
         Checks if a player has won the game
@@ -367,23 +373,18 @@ class UNOGAMEMODEL:
         ):
             self.deck.computer_deck.is_winner = True
 
-    def human_players_turn(self, button_pressed, picked_card = None):
+    def human_players_turn(self, picked_card):
         """
         Runs a turn for the human player in an UNO game
 
         Args:
-            picked_card: An integer or string type representing the position of
+            picked_card: An integer representing the position of
                 the card in the players hand that they want to play in the game (if an integer)
                 or t+he desire to pick a card for their turn (if a string)
-            botton_pressed: A parameter checking if the button is pressed
-
         """
 
-        if button_pressed:
-            self.pick_a_card(self.player_hand)
-        else:
-            self.deck.played_cards.append(self.player_hand[picked_card])
-            self.player_hand.pop(picked_card)
+        self.deck.played_cards.append(self.player_hand[picked_card])
+        self.player_hand.pop(picked_card)
 
         self._flip_next_move()
 
@@ -392,7 +393,6 @@ class UNOGAMEMODEL:
         Runs the virtual 'computer' player's turn. Performs the artificial player's (computer's)
         turn by having them choose what card they will play or if they will pick a card, and then
         performing their chosen action in the game.
-
         """
 
         for card_position, card in enumerate(self.computer_hand):
@@ -401,6 +401,7 @@ class UNOGAMEMODEL:
 
                 self.deck.played_cards.append(self.computer_hand[card_position])
                 self.computer_hand.pop(card_position)
+                self._flip_next_move()
                 break
 
             if card_position == (
@@ -437,14 +438,13 @@ class UNOGAMEMODEL:
     def call_uno(self):
         """
         Declares the human player has called out UNO
-
         """
+
         self.deck.human_deck.uno = True
 
     def call_uno_out(self):
         """
         Declares the human player has called out UNO OUT
-
         """
 
         self.deck.human_deck.unoout = True
@@ -466,7 +466,6 @@ class UNOGAMEMODEL:
 
         if len(self.computer_hand) == 1 or len(self.computer_hand) == 0:
             self.deck.computer_deck.uno = True
-            print("Computer calls UNO")
 
         else:
             self.deck.computer_deck.uno = False
@@ -479,7 +478,6 @@ class UNOGAMEMODEL:
 
         if len(self.computer_hand) == 0:
             self.deck.computer_deck.unoout = True
-            # print("Computer calls UNO OUT! They win!")
 
         else:
             self.deck.computer_deck.unoout = False

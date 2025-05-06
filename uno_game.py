@@ -1,3 +1,8 @@
+"""
+Combines elements of the uno_model.py, uno_controller.py, and uno_view.py
+files together to run a fluid digital UNO game
+"""
+
 import pygame
 from Source.uno_model import UNOGAMEMODEL
 from uno_controller import MouseController
@@ -16,7 +21,7 @@ DT = 0  # start time
 
 # everything should be in the "running" loop
 while RUNNING:
-    #screen.fill("blue")
+    # screen.fill("blue")
     view.draw_background(screen)
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
@@ -31,11 +36,13 @@ while RUNNING:
             controller.interact_with_uno_out_button(Model, view.buttons["UNO OUT"])
             controller.interact_with_draw_button(Model, view.buttons["Draw"])
 
-
     if Model.deck.human_deck.is_winner:
         print("won and end")
         RUNNING = False
         continue
+
+    if Model.deck.human_deck.is_winner:
+        view.display_win_message(screen, "you")
 
     if Model.computer_turn:
         Model.computer_player_turn()
@@ -51,13 +58,7 @@ while RUNNING:
     Model.check_for_winner()
 
     if Model.deck.computer_deck.is_winner:
-        print("computer wins")
+        view.display_win_message(screen, "the computer")
         RUNNING = False
 
 print("ends")
-
-if Model.deck.computer_deck.is_winner:
-    view.display_win_message(screen, "the computer")
-
-elif Model.deck.human_deck.is_winner:
-    view.display_win_message(screen, "you")

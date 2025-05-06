@@ -92,10 +92,12 @@ class View:
         """
         Render the player's hand using images uploaded
         """
-        x_position = 0
-        for card in self.model.player_hand:
-            screen.blit(card.image, (x_position, 150))
-            x_position += 150
+        x = 0
+
+        for card in self.model.deck.human_deck.hand:
+            card.draw(screen, x, 150)
+            # self.model.deck.human_deck.draw_hand(screen, x, 150)
+            x += 95
 
     def draw_top_card(self, screen):
         """
@@ -143,10 +145,10 @@ class View:
 #             if event.type == pygame.QUIT:
 #                 RUNNING = False
 
-        view.draw_background(screen)
-        view.draw_buttons(screen)
-        view.draw_player_hand(screen)
-        view.draw_top_card(screen)
+# view.draw_background(screen)
+# view.draw_buttons(screen)
+# view.draw_player_hand(screen)
+# view.draw_top_card(screen)
 #         view.display_win_message(screen, "YOU")
 #         pygame.display.flip()
 #         clock.tick(30)

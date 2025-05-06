@@ -1,14 +1,17 @@
 """
-    Code to load in a spritesheet. helper code for visualization
+Code to load in a spritesheet. helper code for visualization
 """
+
 import pygame
 
-class SpriteSheet():
+
+class SpriteSheet:
     """
-        Helper code to load in the SpriteSheet. Created with help
-        from the tutorial by Coding with Rus on youtube
+    Helper code to load in the SpriteSheet. Created with help
+    from the tutorial by Coding with Rus on youtube
     """
-#function to load in just one sprite from the spritesheet:
+
+    # function to load in just one sprite from the spritesheet:
     def __init__(self, image):
         self.sheet = image
 
@@ -26,7 +29,7 @@ class SpriteSheet():
             a surface with a loaded sprite from the sprite sheet
         """
         image = pygame.Surface((width, height)).convert_alpha()
-        image.blit(self.sheet, (0,0), ((frame * width), 0, width, height))
+        image.blit(self.sheet, (0, 0), ((frame * width), 0, width, height))
         image = pygame.transform.scale(image, (width * scale, height * scale))
 
         return image
