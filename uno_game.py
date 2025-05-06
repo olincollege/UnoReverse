@@ -22,7 +22,7 @@ while RUNNING:
         if event.type == pygame.QUIT:
             RUNNING = False
         controller.mouse_controller_update(event)
-        
+
         if controller.clicked:
             controller.interact_with_card(Model)
             controller.interact_with_uno_button(Model, view.buttons["UNO"])
@@ -37,7 +37,9 @@ while RUNNING:
     #     if draw.button clicking is True
     #         Model.pick_a_card(Model.player_hand)
 
-    Model.human_players_turn(controller.interact_with_card)  # need to know what card is clicked as input
+    Model.human_players_turn(
+        controller.interact_with_card
+    )  # need to know what card is clicked as input
     Model.check_player_uno()
     Model.check_for_winner()
 
@@ -55,7 +57,7 @@ while RUNNING:
         RUNNING = False
 
 if Model.deck.computer_deck.is_winner is True:
-    view.display_win_message("the computer")
+    view.display_win_message(screen, "the computer")
 
 elif Model.deck.human_deck.is_winner is True:
-    view.display_win_message("you")
+    view.display_win_message(screen, "you")

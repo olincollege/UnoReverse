@@ -412,17 +412,17 @@ class UNOGAMEMODEL:
 
         """
 
-        for card_pos in enumerate(self.computer_hand):
+        for card_position, card in enumerate(self.computer_hand):
 
-            if self.is_card_valid_move(self.computer_hand[card_pos]):
+            if self.is_card_valid_move(card):
 
-                self.deck.played_cards.append(self.computer_hand[card_pos])
-                self.computer_hand.pop(card_pos)
+                self.deck.played_cards.append(self.computer_hand[card_position])
+                self.computer_hand.pop(card_position)
                 break
 
-            if card_pos == (
+            if card_position == (
                 len(self.computer_hand) - 1
-            ) and not self.is_card_valid_move(self.computer_hand[card_pos]):
+            ) and not self.is_card_valid_move(card):
                 self.pick_a_card(self.computer_hand)
 
         if self.computer_turn is True and len(self.computer_hand) == 1:
