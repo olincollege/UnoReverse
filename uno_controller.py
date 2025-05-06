@@ -7,11 +7,6 @@ import pygame
 from pygame.locals import *
 
 # setup pygame
-mainClock = pygame.time.Clock()
-pygame.init()
-
-clicking = False
-
 
 class MouseController:
     """
@@ -57,9 +52,9 @@ class MouseController:
             model (_type_): _description_
             uno_button (_type_): _description_
         """
-        if uno_button.collidepoint(self.mouse_x, self.mouse_y):
-            if model.check_player_uno():
-                model.call_uno()
+        if uno_button.collidepoint(self.mouse_x, self.mouse_y) \
+        and model.check_player_uno():
+            model.call_uno()
 
     def interact_with_uno_out_button(self, model, uno_out_button):
         """_summary_
@@ -68,10 +63,10 @@ class MouseController:
             model (_type_): _description_
             uno_out_button (_type_): _description_
         """
-        if uno_out_button.collidepoint(self.mouse_x, model, self.mouse_y):
+        if uno_out_button.collidepoint(self.mouse_x, self.mouse_y):
             model.call_uno_out()
             model.check_for_winner()
-            model.declare_winner()
+            #model.declare_winner()
 
     def interact_with_draw_button(self, model, draw_button):
         """_summary_
